@@ -45,7 +45,8 @@ options.add_argument("--disable-gpu")
 options.add_argument("--disable-features=NetworkService")
 options.add_argument("--window-size=1920x1080")
 options.add_argument(f"--user-data-dir=user_data")
-waitTime = 10
+# options.add_argument("--headless")
+waitTime = 4
 
 
 
@@ -72,7 +73,9 @@ for song in songs:
     try:
         result = wait.until(EC.element_to_be_clickable((By.XPATH, FirstResult+"[1]"))).click()
     except:
-        actions.move_to_element(result).click().perform()
+        # actions.move_to_element(result).click().perform()
+        print("first result issue, moving on")
+        continue
 
     # result.click()
     sleep(2)
