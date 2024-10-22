@@ -9,7 +9,6 @@ from selenium.webdriver.common.by import By
 import json
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-import time
 
 
 #global variables
@@ -31,7 +30,8 @@ with open("songDict.json", "r") as file:
 
 #XPATHs
 SearchBar = "//input[contains(@id,'search')]"
-FirstResult = "(//ytd-thumbnail[contains(@size,'large')])"
+# FirstResult = "(//ytd-thumbnail[contains(@size,'large')])"
+FirstResult = "(//ytd-video-renderer[contains(@class,'style-scope ytd-item-section-renderer')]//ytd-thumbnail[contains(@size,'large')])"
 # CommentN = "//ytd-comment-thread-renderer[contains(@class,'style-scope ytd-item-section-renderer')]"
 CommentN = "//ytd-comment-thread-renderer[contains(@class,'style-scope ytd-item-section-renderer')]//span[contains(@class,'yt-core-attributed-string--white-space-pre-wrap' )]"
 
@@ -45,7 +45,7 @@ options.add_argument("--disable-gpu")
 options.add_argument("--disable-features=NetworkService")
 options.add_argument("--window-size=1920x1080")
 options.add_argument(f"--user-data-dir=user_data")
-waitTime = 30
+waitTime = 10
 
 
 
@@ -70,14 +70,11 @@ for song in songs:
     search.submit()
     
     try:
-        result = wait.until(EC.element_to_be_clickable((By.XPATH, FirstResult+"[1]")))
+        result = wait.until(EC.element_to_be_clickable((By.XPATH, FirstResult+"[1]"))).click()
     except:
-        try:
-            result = wait.until(EC.element_to_be_clickable((By.XPATH, FirstResult+"[2]")))
-        except:
-            result = wait.until(EC.element_to_be_clickable((By.XPATH, FirstResult+"[3]")))
+        actions.move_to_element(result).click().perform()
 
-    result.click()
+    # result.click()
     sleep(2)
 
 
@@ -91,24 +88,17 @@ for song in songs:
     #get first count comments
     count = 100
     comments = []
-    retryLimit = 5
+
     for i in range(count):
         try:
             comment = wait.until(EC.presence_of_all_elements_located((By.XPATH, "("+CommentN+")["+str(i+1)+"]")))
             comments.append(comment[0].text)
             
-            if i % 5 == 0:
+            if i % 4 == 0:
                actions.send_keys(Keys.PAGE_DOWN).perform()
             
-            retryLimit = 5
         except:
-            if retryLimit == 0:
-                break
-
-            sleep(0.5)
-            i -= 1
-            retryLimit -= 1
-            actions.send_keys(Keys.PAGE_DOWN).perform()
+            break
             
 
     #save the comments in the dictionary 
