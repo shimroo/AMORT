@@ -90,7 +90,7 @@ options.add_argument("--disable-features=NetworkService")
 options.add_argument("--window-size=1920x1080")
 options.add_argument(f"--user-data-dir=user_data")
 # options.add_argument("--headless")
-waitTime = 10
+waitTime = 5
 
 
 
@@ -102,7 +102,7 @@ print("Driver started")
 
 #open website 
 driver.get('https://music.youtube.com/')
-sleep(2)
+# sleep(200)
 
 for artist in artists:
     if artist in dataset:
