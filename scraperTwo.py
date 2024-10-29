@@ -62,6 +62,7 @@ for song in Songs:
     songUrl = Songs[song]["url"]
     print(f"Opening {songUrl}")
 
+    driver.get(songUrl)
 
     # scroll down until the comments are loaded
     actions = ActionChains(driver)
