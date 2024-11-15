@@ -12,13 +12,13 @@ from selenium.webdriver.common.keys import Keys
 #global variables
 #load artist names
 artists = []
-with open("artists.txt", "r") as file:
+with open("ArtistList.txt", "r") as file:
     artists = file.readlines()
     artists = [artist.strip() for artist in artists]
 
 
 artistDict = {}
-with open("artistDict.json", "r") as file:
+with open("ArtistStatus.json", "r") as file:
     try:
        artistDict = json.load(file)
     except:
@@ -27,7 +27,7 @@ with open("artistDict.json", "r") as file:
    
 #load the dataset dictionary
 dataset = {}
-with open("dataset_1.json", "r") as file:
+with open("SongInfo.json", "r") as file:
     try:
        dataset = json.load(file)
     except:
@@ -51,7 +51,7 @@ def add_music_entry(dataset, music_id, title, artist, album_name, duration, view
         }
 
         #save the updated dataset
-        with open('dataset_1.json', 'w', encoding='utf-8') as fp:
+        with open('SongInfo.json', 'w', encoding='utf-8') as fp:
             json.dump(dataset, fp, ensure_ascii=False, indent=4)
 
 
@@ -178,7 +178,7 @@ for artist in artists:
         add_music_entry(dataset, music_id, title, artistName, album_name, duration, view_count)
 
     artistDict[artist] = True
-    with open('artistDict.json', 'w', encoding='utf-8') as fp:
+    with open('ArtistStatus.json', 'w', encoding='utf-8') as fp:
         json.dump(artistDict, fp, ensure_ascii=False, indent=4)
 
     print(f"Done with {artist}")
