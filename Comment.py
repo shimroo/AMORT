@@ -14,14 +14,14 @@ from selenium.webdriver.common.keys import Keys
 #global variables
 # load songs name from the txt file
 Songs = {}
-with open("dataset_1.json", "r") as file:
+with open("SongInfo.json", "r") as file:
     Songs = json.load(file)
 
 
 
 #load the song dictionary
 songDict = {}
-with open("songDict.json", "r") as file:
+with open("SongCollection.json", "r") as file:
     try:
        songDict = json.load(file)
     except:
@@ -93,7 +93,7 @@ for song in Songs:
 
     #save the comments in the dictionary 
     songDict[song] = comments
-    with open('songDict.json', 'w', encoding='utf-8') as fp:
+    with open('SongCollection.json', 'w', encoding='utf-8') as fp:
             json.dump(songDict, fp, ensure_ascii=False, indent=4)
 
  
