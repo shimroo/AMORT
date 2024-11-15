@@ -29,7 +29,7 @@ with open("songDict.json", "r") as file:
    
 
 #XPATHs
-CommentN = "//ytd-comment-thread-renderer[contains(@class,'style-scope ytd-item-section-renderer')]//span[contains(@class,'yt-core-attributed-string--white-space-pre-wrap' )]"
+CommentN = "//ytd-comment-thread-renderer[contains(@class,'style-scope ytd-item-section-renderer')]//span[contains(@class,'yt-core-attributed-string--white-space-pre-wrap')]"
 
 
 #faceless undetected chrome
@@ -50,6 +50,8 @@ waitTime = 4
 #main code 
 driver = uc.Chrome(options=options)
 wait = WebDriverWait(driver, waitTime)
+actions = ActionChains(driver)
+
 print("Driver started")
 
 for song in Songs:
@@ -65,7 +67,6 @@ for song in Songs:
     driver.get(songUrl)
 
     # scroll down until the comments are loaded
-    actions = ActionChains(driver)
     for _ in range(5):
         actions.send_keys(Keys.PAGE_DOWN).perform()
         sleep(0.5)
@@ -82,6 +83,9 @@ for song in Songs:
             
             if i % 4 == 0:
                actions.send_keys(Keys.PAGE_DOWN).perform()
+
+               element = wait.until(EC.presence_of_element_located((By.XPATH, "("+CommentN+")["+str(i+1)+"]")))
+               actions.move_to_element(element).send_keys(Keys.PAGE_DOWN).perform()
             
         except:
             break
