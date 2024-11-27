@@ -52,9 +52,17 @@ driver = uc.Chrome(options=options)
 wait = WebDriverWait(driver, waitTime)
 actions = ActionChains(driver)
 
-print("Driver started")
 
-for song in Songs:
+print("Driver started")
+# Run on the last half of the songs
+print(f"Total songs: {len(Songs)}")
+print("Running on the last half of the songs: " + str(len(Songs)//2))
+
+# Convert the dictionary to a list of keys
+song_keys = list(Songs.keys())
+song_keys = song_keys[len(Songs)//2:]
+
+for song in song_keys:
     if song in songDict:
         print(f"Skipping {song}")
         continue
