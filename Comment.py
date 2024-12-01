@@ -60,7 +60,7 @@ print("Running on the last half of the songs: " + str(len(Songs)//2))
 
 # Convert the dictionary to a list of keys
 song_keys = list(Songs.keys())
-song_keys = song_keys[len(Songs)//2:]
+# song_keys = song_keys[len(Songs)//2:]
 
 for song in song_keys:
     if song in songDict:
